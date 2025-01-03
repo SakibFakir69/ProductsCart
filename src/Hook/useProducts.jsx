@@ -11,15 +11,27 @@ function useProducts() {
 
     const axiosSecure = useAxiosSecure(); // this is base url 
 
+    const [ loading , setloading ] = useState(true); // loading test
+    const [ Error , setError ] = useState(null);
+
 
     useEffect(()=>{
 
         const data =async ()=>{
 
-            const response = await axiosSecure.get('/products')
-            serProducts(response.data.products
-            );
+        
+       
             
+
+            const response = await axiosSecure.get('/products')
+            if(response.status===200)
+            {
+
+                serProducts(response.data.products
+                );
+            
+            }
+       
             
             
         }

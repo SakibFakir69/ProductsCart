@@ -1,26 +1,31 @@
 
 
 
+
+
+
+
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import useAxiosSecure from './useAxiosSecure'
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 
 function useCart() {
+  const axiosSecure = useAxiosSecure();
+  /// loading , error , data 
+
+  const {isLoading, isError , data:Products} = useQuery({
+    // key use for caching
+    queryKey:['products'],
+    queryFn: async ()=> await axiosSecure.get('/products'),
+    staleTime: 10000
+
+    // data fetch 
+
+  })
+ 
 
 
-    const axiosSecure = useAxiosSecure();
-
-    const {data:cart= [],refetch} = useQuery({
-
-        queryKey:['data'],
-        queryFn: async ()=> await axiosSecure.get('/products')
-
-    })
-
-
-
-  return [cart , refetch]
+  return {isLoading,isError,Products};
 }
 
 export default useCart
